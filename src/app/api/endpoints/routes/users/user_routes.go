@@ -9,5 +9,8 @@ import (
 var userHandlers = dicontainer.GetUserHandlers()
 
 func LoadUserRoutes(group *echo.Group) {
+	userGroup := group.Group("/user")
+	userHandlers := dicontainer.GetUserHandlers()
 
+	userGroup.GET("/playlist/:playlistID/songs", userHandlers.GetSongsByPlaylistID)
 }

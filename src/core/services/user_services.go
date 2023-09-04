@@ -1,6 +1,8 @@
 package services
 
 import (
+	"echofy_backend/src/core/domain/song"
+	"echofy_backend/src/core/errors"
 	"echofy_backend/src/core/errors/logger"
 	"echofy_backend/src/core/interfaces/primary"
 	"echofy_backend/src/core/interfaces/repository"
@@ -11,6 +13,15 @@ var _ primary.UserManager = (*UserServices)(nil)
 type UserServices struct {
 	userRepository repository.UserLoader
 	logger         logger.Logger
+}
+
+func (u UserServices) FetchSongsByPlaylistID(playlistID string) ([]song.Song, errors.Error) {
+	songs, err := u.userRepository.FindSongsByPlaylistID(playlistID)
+	if err != nil {
+		return nil, err
+	}
+
+	return songs, nil
 }
 
 func NewUserServices(userRepository repository.UserLoader, logger logger.Logger) *UserServices {

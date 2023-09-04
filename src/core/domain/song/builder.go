@@ -15,8 +15,8 @@ type Builder struct {
 	invalidFields []errors.InvalidField
 }
 
-func (b *Builder) WithID(id uuid.UUID) *Builder {
-	if id == uuid.Nil {
+func (b *Builder) WithID(id string) *Builder {
+	if id == "" {
 		b.invalidFields = append(b.invalidFields, errors.InvalidField{
 			Name:        messages.SongID,
 			Description: messages.SongIDInvalidErrMsg,
@@ -68,8 +68,8 @@ func (b *Builder) WithReleaseDate(releaseDate time.Time) *Builder {
 	return b
 }
 
-func (b *Builder) WithDuration(duration string) *Builder {
-	if duration == "" {
+func (b *Builder) WithDuration(duration int) *Builder {
+	if duration == 0 {
 		b.invalidFields = append(b.invalidFields, errors.InvalidField{
 			Name:        messages.SongDuration,
 			Description: messages.SongDurationInvalidErrMsg,

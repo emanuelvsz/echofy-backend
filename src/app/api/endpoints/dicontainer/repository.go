@@ -3,6 +3,7 @@ package dicontainer
 import (
 	"echofy_backend/src/core/interfaces/repository"
 	"echofy_backend/src/infra/postgres"
+	spotifyrepo "echofy_backend/src/infra/spotify"
 )
 
 func GetAuthRepository() repository.AuthLoader {
@@ -10,7 +11,7 @@ func GetAuthRepository() repository.AuthLoader {
 }
 
 func GetUserRepository() repository.UserLoader {
-	return postgres.NewUserPostgresRepository(GetPsqlConnectionManager())
+	return spotifyrepo.NewUserSpotifyRepository()
 }
 
 func GetPsqlConnectionManager() *postgres.DatabaseConnectionManager {

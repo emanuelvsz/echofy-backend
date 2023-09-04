@@ -7,19 +7,18 @@ import (
 )
 
 type Song struct {
-	id          uuid.UUID
+	id          string
 	name        string
 	artistID    uuid.UUID
 	albumID     *uuid.UUID
 	releaseDate time.Time
-	duration    string
+	duration    int
 	lyrics      *string
 	trackNumber *int
 	spotifyURL  string
 }
 
-
-func (s Song) ID() uuid.UUID {
+func (s Song) ID() string {
 	return s.id
 }
 
@@ -39,7 +38,7 @@ func (s Song) ReleaseDate() time.Time {
 	return s.releaseDate
 }
 
-func (s Song) Duration() string {
+func (s Song) Duration() int {
 	return s.duration
 }
 

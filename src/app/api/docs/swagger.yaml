@@ -1,66 +1,5 @@
 basePath: /api
 definitions:
-  response.AlbumDTO:
-    properties:
-      artistId:
-        type: string
-      description:
-        type: string
-      id:
-        type: string
-      image_url:
-        type: string
-      name:
-        type: string
-      release_date:
-        type: string
-    type: object
-  response.ArtistDTO:
-    properties:
-      description:
-        type: string
-      founded_at:
-        type: string
-      id:
-        type: string
-      members:
-        items:
-          $ref: '#/definitions/response.ArtistDTO'
-        type: array
-      name:
-        type: string
-      super_artist_id:
-        type: string
-      terminated_at:
-        type: string
-    type: object
-  response.ArtistLowDTO:
-    properties:
-      country_id:
-        type: string
-      description:
-        type: string
-      founded_at:
-        type: string
-      id:
-        type: string
-      members:
-        items:
-          $ref: '#/definitions/response.ArtistDTO'
-        type: array
-      name:
-        type: string
-      picture_url:
-        type: string
-      record_company_id:
-        type: string
-      spotify_url:
-        type: string
-      super_artist_id:
-        type: string
-      terminated_at:
-        type: string
-    type: object
   response.ErrorMessage:
     properties:
       duplicated_fields:
@@ -81,21 +20,6 @@ definitions:
       description:
         type: string
       field_name:
-        type: string
-    type: object
-  response.SongDTO:
-    properties:
-      album_id:
-        type: string
-      artist_id:
-        type: string
-      duration:
-        type: string
-      id:
-        type: string
-      name:
-        type: string
-      release_date:
         type: string
     type: object
 info:
@@ -146,18 +70,17 @@ paths:
       summary: Fazer login no sistema
       tags:
       - Rotas de autenticação
-  /user/albums:
+  /user/playlist/{playlistID}/songs:
     get:
-      description: Rota que permite que se busque todos os albuns
-      operationId: GetAlbums
+      description: Rota que permite que se busque todas as músicas de uma determinada
+        playlist
+      operationId: GetSongsByPlaylistID
       produces:
       - application/json
       responses:
         "200":
           description: Requisição realizada com sucesso.
           schema:
-            items:
-              $ref: '#/definitions/response.AlbumDTO'
             type: array
         "401":
           description: Usuário não autorizado.
@@ -179,172 +102,7 @@ paths:
           description: A base de dados não está disponível.
           schema:
             $ref: '#/definitions/response.ErrorMessage'
-      summary: Buscar todos os albuns
-      tags:
-      - Rotas do usuário
-  /user/albums/{albumID}/songs:
-    get:
-      description: Rota que permite que se busque todas as músicas de um album
-      operationId: GetAlbumSongs
-      parameters:
-      - default: 4d1035ba-22b7-4139-baff-c02861e4c6ec
-        description: ID do album.
-        in: path
-        name: albumID
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Requisição realizada com sucesso.
-          schema:
-            items:
-              $ref: '#/definitions/response.SongDTO'
-            type: array
-        "401":
-          description: Usuário não autorizado.
-          schema:
-            $ref: '#/definitions/response.ErrorMessage'
-        "403":
-          description: Acesso negado.
-          schema:
-            $ref: '#/definitions/response.ErrorMessage'
-        "422":
-          description: Algum dado informado não pôde ser processado.
-          schema:
-            $ref: '#/definitions/response.ErrorMessage'
-        "500":
-          description: Ocorreu um erro inesperado.
-          schema:
-            $ref: '#/definitions/response.ErrorMessage'
-        "503":
-          description: A base de dados não está disponível.
-          schema:
-            $ref: '#/definitions/response.ErrorMessage'
-      summary: Buscar todas as músicas de um album específico
-      tags:
-      - Rotas do usuário
-  /user/artists:
-    get:
-      description: Rota que permite que se busque todos os artistas do banco
-      operationId: GetArtists
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Requisição realizada com sucesso.
-          schema:
-            items:
-              $ref: '#/definitions/response.ArtistDTO'
-            type: array
-        "401":
-          description: Usuário não autorizado.
-          schema:
-            $ref: '#/definitions/response.ErrorMessage'
-        "403":
-          description: Acesso negado.
-          schema:
-            $ref: '#/definitions/response.ErrorMessage'
-        "422":
-          description: Algum dado informado não pôde ser processado.
-          schema:
-            $ref: '#/definitions/response.ErrorMessage'
-        "500":
-          description: Ocorreu um erro inesperado.
-          schema:
-            $ref: '#/definitions/response.ErrorMessage'
-        "503":
-          description: A base de dados não está disponível.
-          schema:
-            $ref: '#/definitions/response.ErrorMessage'
-      summary: Buscar todos os artistas do banco
-      tags:
-      - Rotas do usuário
-  /user/artists/{artistID}:
-    get:
-      description: Rota que permite que se busque as informações de um artista
-      operationId: GetArtistInformation
-      parameters:
-      - default: a6d6488b-6ed0-4d41-9c55-4e899fdd7e47
-        description: ID do artista.
-        in: path
-        name: artistID
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Requisição realizada com sucesso.
-          schema:
-            items:
-              $ref: '#/definitions/response.ArtistLowDTO'
-            type: array
-        "401":
-          description: Usuário não autorizado.
-          schema:
-            $ref: '#/definitions/response.ErrorMessage'
-        "403":
-          description: Acesso negado.
-          schema:
-            $ref: '#/definitions/response.ErrorMessage'
-        "422":
-          description: Algum dado informado não pôde ser processado.
-          schema:
-            $ref: '#/definitions/response.ErrorMessage'
-        "500":
-          description: Ocorreu um erro inesperado.
-          schema:
-            $ref: '#/definitions/response.ErrorMessage'
-        "503":
-          description: A base de dados não está disponível.
-          schema:
-            $ref: '#/definitions/response.ErrorMessage'
-      summary: Buscar os dados de um artista por id
-      tags:
-      - Rotas do usuário
-  /user/artists/{artistID}/songs:
-    get:
-      description: Rota que permite que se busque todas as músicas de um artista
-      operationId: GetArtistSongs
-      parameters:
-      - default: cfd8b073-a303-4886-836a-f249e88be9bc
-        description: ID do artista.
-        in: path
-        name: artistID
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Requisição realizada com sucesso.
-          schema:
-            items:
-              $ref: '#/definitions/response.SongDTO'
-            type: array
-        "401":
-          description: Usuário não autorizado.
-          schema:
-            $ref: '#/definitions/response.ErrorMessage'
-        "403":
-          description: Acesso negado.
-          schema:
-            $ref: '#/definitions/response.ErrorMessage'
-        "422":
-          description: Algum dado informado não pôde ser processado.
-          schema:
-            $ref: '#/definitions/response.ErrorMessage'
-        "500":
-          description: Ocorreu um erro inesperado.
-          schema:
-            $ref: '#/definitions/response.ErrorMessage'
-        "503":
-          description: A base de dados não está disponível.
-          schema:
-            $ref: '#/definitions/response.ErrorMessage'
-      summary: Buscar todas as músicas de um artista específico
+      summary: Buscar todas as músicas de uma playlist
       tags:
       - Rotas do usuário
 securityDefinitions:
