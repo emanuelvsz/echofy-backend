@@ -18,10 +18,10 @@ import (
 const defaultEnvFilePath = "./src/app/api/.env"
 
 // NewAPI
-// @title SPOTIFY RECORDS API
+// @title ECHOFY API
 // @version 1.0
 // @description Aplicação de artistas do spotify
-// @contact.name DIT - IFAL
+// @contact.name Emanuel Vilela
 // @contact.email evs10@aluno.ifal.edu.br
 // @BasePath /api
 // @securityDefinitions.apikey bearerAuth

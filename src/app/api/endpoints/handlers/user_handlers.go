@@ -24,7 +24,7 @@ type UserHandlers struct {
 // @Summary Buscar todas as músicas de uma playlist
 // @Tags Rotas do usuário
 // @Description Rota que permite que se busque todas as músicas de uma determinada playlist
-// @Param playlistID path string true "ID do artista." default(7pCvSVfjcnOw6AFJNZZ4bN)
+// @Param playlistID path string true "ID da playlist." default(7pCvSVfjcnOw6AFJNZZ4bN)
 // @Produce json
 // @Success 200 {array} response.SongDTO "Requisição realizada com sucesso."
 // @Failure 401 {object} response.ErrorMessage "Usuário não autorizado."
@@ -65,6 +65,33 @@ func (h UserHandlers) GetSongsByPlaylistID(context echo.Context) error {
 	}
 
 	return context.JSON(http.StatusOK, songs)
+}
+
+// GetPlaylistID
+// @ID GetPlaylistID
+// @Summary Buscar os dados de uma playlist
+// @Tags Rotas do usuário
+// @Description Rota que permite que se busque todas as informações de uma playlist
+// @Param playlistID path string true "ID da playlist." default(7pCvSVfjcnOw6AFJNZZ4bN)
+// @Produce json
+// @Success 200 {object} response.PlaylistDTO "Requisição realizada com sucesso."
+// @Failure 401 {object} response.ErrorMessage "Usuário não autorizado."
+// @Failure 403 {object} response.ErrorMessage "Acesso negado."
+// @Failure 422 {object} response.ErrorMessage "Algum dado informado não pôde ser processado."
+// @Failure 500 {object} response.ErrorMessage "Ocorreu um erro inesperado."
+// @Failure 503 {object} response.ErrorMessage "A base de dados não está disponível."
+// @Router /user/playlist/{playlistID} [get]
+func (h UserHandlers) GetPlaylistByID(context echo.Context) error {
+	playlistID := context.Param(playlistID)
+
+	playlistRow, fetchErr := h.service.FetchPlaylistByID(playlistID)
+	if fetchErr != nil {
+		return getHttpHandledErrorResponse(context, fetchErr)
+	}
+
+	playlist := response.NewPlaylistDTO(*playlistRow)
+
+	return context.JSON(http.StatusOK, playlist)
 }
 
 func NewUserHandlers(service primary.UserManager) *UserHandlers {

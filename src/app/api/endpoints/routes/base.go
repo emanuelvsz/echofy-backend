@@ -2,7 +2,7 @@ package routes
 
 import (
 	_ "echofy_backend/src/app/api/docs"
-	"echofy_backend/src/app/api/endpoints/routes/users"
+	"echofy_backend/src/app/api/endpoints/routes/user"
 	"github.com/labstack/echo/v4"
 )
 
@@ -19,5 +19,5 @@ func New() Router {
 
 func (instance *router) Load(group *echo.Group) {
 	loadApiRoutes(group)
-	users.LoadUserRoutes(group)
+	user.LoadUserRoutes(group)
 }

@@ -1,5 +1,26 @@
 basePath: /api
 definitions:
+  response.ArtistDTO:
+    properties:
+      description:
+        type: string
+      founded_at:
+        type: string
+      id:
+        type: string
+      members:
+        items:
+          $ref: '#/definitions/response.ArtistDTO'
+        type: array
+      name:
+        type: string
+      spotify_url:
+        type: string
+      super_artist_id:
+        type: string
+      terminated_at:
+        type: string
+    type: object
   response.ErrorMessage:
     properties:
       duplicated_fields:
@@ -22,12 +43,27 @@ definitions:
       field_name:
         type: string
     type: object
+  response.PlaylistDTO:
+    properties:
+      description:
+        type: string
+      followers_amount:
+        type: integer
+      id:
+        type: string
+      name:
+        type: string
+      song_amount:
+        type: integer
+    type: object
   response.SongDTO:
     properties:
       album_id:
         type: string
-      artist_id:
-        type: string
+      artists:
+        items:
+          $ref: '#/definitions/response.ArtistDTO'
+        type: array
       duration:
         type: integer
       id:
@@ -40,9 +76,9 @@ definitions:
 info:
   contact:
     email: evs10@aluno.ifal.edu.br
-    name: DIT - IFAL
+    name: Emanuel Vilela
   description: Aplicação de artistas do spotify
-  title: SPOTIFY RECORDS API
+  title: ECHOFY API
   version: "1.0"
 paths:
   /auth/login:
@@ -85,6 +121,47 @@ paths:
       summary: Fazer login no sistema
       tags:
       - Rotas de autenticação
+  /user/playlist/{playlistID}:
+    get:
+      description: Rota que permite que se busque todas as informações de uma playlist
+      operationId: GetPlaylistID
+      parameters:
+      - default: 7pCvSVfjcnOw6AFJNZZ4bN
+        description: ID da playlist.
+        in: path
+        name: playlistID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Requisição realizada com sucesso.
+          schema:
+            $ref: '#/definitions/response.PlaylistDTO'
+        "401":
+          description: Usuário não autorizado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "403":
+          description: Acesso negado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "422":
+          description: Algum dado informado não pôde ser processado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "500":
+          description: Ocorreu um erro inesperado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "503":
+          description: A base de dados não está disponível.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+      summary: Buscar os dados de uma playlist
+      tags:
+      - Rotas do usuário
   /user/playlist/{playlistID}/songs:
     get:
       description: Rota que permite que se busque todas as músicas de uma determinada
@@ -92,7 +169,7 @@ paths:
       operationId: GetSongsByPlaylistID
       parameters:
       - default: 7pCvSVfjcnOw6AFJNZZ4bN
-        description: ID do artista.
+        description: ID da playlist.
         in: path
         name: playlistID
         required: true

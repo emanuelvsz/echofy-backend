@@ -1,4 +1,4 @@
-package users
+package user
 
 import (
 	"echofy_backend/src/app/api/endpoints/dicontainer"
@@ -12,5 +12,6 @@ func LoadUserRoutes(group *echo.Group) {
 	userGroup := group.Group("/user")
 	userHandlers := dicontainer.GetUserHandlers()
 
+	userGroup.GET("/playlist/:playlistID", userHandlers.GetPlaylistByID)
 	userGroup.GET("/playlist/:playlistID/songs", userHandlers.GetSongsByPlaylistID)
 }

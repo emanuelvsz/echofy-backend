@@ -3,6 +3,7 @@ package spotifyrepo
 import (
 	"context"
 	"echofy_backend/src/core/domain/artist"
+	"echofy_backend/src/core/domain/playlist"
 	"echofy_backend/src/core/domain/song"
 	"echofy_backend/src/core/errors"
 	"echofy_backend/src/core/interfaces/repository"
@@ -89,6 +90,30 @@ func (u UserSpotifyRepository) FindArtistByID(artistID string) (*artist.Artist, 
 	}
 
 	return artist, nil
+}
+
+func (u UserSpotifyRepository) FindPlaylistByID(playlistID string) (*playlist.Playlist, errors.Error) {
+	ctx := context.Background()
+	token := getConnection(ctx)
+
+	httpClient := spotifyauth.New().Client(ctx, token)
+	client := spotify.New(httpClient)
+
+	playlistRow, fetchErr := client.GetPlaylist(ctx, spotify.ID(playlistID))
+	if fetchErr != nil {
+		return nil, errors.NewUnexpectedError(messages.UnexpectedErrorMessage, fetchErr)
+	}
+
+	playlistBuilder := playlist.NewBuilder()
+	playlistBuilder.WithID(string(playlistRow.ID)).WithName(playlistRow.Name)
+	playlistBuilder.WithSongAmount(playlistRow.Tracks.Total).WithDescription(playlistRow.Description)
+	playlistBuilder.WithFollowersAmount(int(playlistRow.Followers.Count))
+	playlist, createdEr := playlistBuilder.Build()
+	if createdEr != nil {
+		return nil, errors.NewUnexpectedError(messages.UnexpectedErrorMessage, createdEr)
+	}
+
+	return playlist, nil
 }
 
 func NewUserSpotifyRepository() *UserSpotifyRepository {
