@@ -1,0 +1,11 @@
+FROM postgres:14
+
+COPY . /sql
+
+WORKDIR /sql
+
+EXPOSE 5432
+
+COPY ./sql/migrations ./sql/migrations
+
+ADD ./sql/init.sql /docker-entrypoint-initdb.d

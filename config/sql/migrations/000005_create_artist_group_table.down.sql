@@ -1,0 +1,1 @@
+drop table artist_group;

@@ -1,0 +1,15 @@
+# Use postgres/example user/password credentials
+version: '3'
+
+services:
+  db:
+    container_name: spotify_db
+    build:
+      dockerfile: ./docker/Dockerfile.postgres
+      context: "../"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=12345678
+    restart: always
+    ports:
+      - "5432:5432"

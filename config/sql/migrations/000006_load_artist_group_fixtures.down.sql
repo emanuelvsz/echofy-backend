@@ -1,0 +1,1 @@
+truncate table artist_group cascade;

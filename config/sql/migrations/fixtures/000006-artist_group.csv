@@ -1,0 +1,4 @@
+artist_id;super_artist_id;joined_at;left_at;is_active
+3c2e5261-8be5-41a2-8fa1-cad942772e9d;a6d6488b-6ed0-4d41-9c55-4e899fdd7e47;2014-01-01;;true
+8f7ebdd3-90f1-49e2-a032-d4a03828f56f;a6d6488b-6ed0-4d41-9c55-4e899fdd7e47;2011-01-01;;true
+ff0f76b0-5d79-4b60-87a9-8be7c652aee9;a6d6488b-6ed0-4d41-9c55-4e899fdd7e47;2003-01-01;;true

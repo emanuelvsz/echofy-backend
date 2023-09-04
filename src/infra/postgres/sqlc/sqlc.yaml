@@ -1,0 +1,7 @@
+version: 1
+packages:
+  - path: "../bridge"
+    name: "bridge"
+    engine: "postgresql"
+    schema: "../../../../config/sql/migrations"
+    queries: "queries"
