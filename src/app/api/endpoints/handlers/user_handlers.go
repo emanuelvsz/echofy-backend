@@ -9,9 +9,10 @@ import (
 )
 
 const (
-	albumID  = "albumID"
-	artistID = "artistID"
-	songID   = "songID"
+	albumID    = "albumID"
+	artistID   = "artistID"
+	songID     = "songID"
+	playlistID = "playlistID"
 )
 
 type UserHandlers struct {
@@ -23,8 +24,9 @@ type UserHandlers struct {
 // @Summary Buscar todas as músicas de uma playlist
 // @Tags Rotas do usuário
 // @Description Rota que permite que se busque todas as músicas de uma determinada playlist
+// @Param playlistID path string true "ID do artista." default(7pCvSVfjcnOw6AFJNZZ4bN)
 // @Produce json
-// @Success 200 {array} nil "Requisição realizada com sucesso."
+// @Success 200 {array} response.SongDTO "Requisição realizada com sucesso."
 // @Failure 401 {object} response.ErrorMessage "Usuário não autorizado."
 // @Failure 403 {object} response.ErrorMessage "Acesso negado."
 // @Failure 422 {object} response.ErrorMessage "Algum dado informado não pôde ser processado."
@@ -32,16 +34,31 @@ type UserHandlers struct {
 // @Failure 503 {object} response.ErrorMessage "A base de dados não está disponível."
 // @Router /user/playlist/{playlistID}/songs [get]
 func (h UserHandlers) GetSongsByPlaylistID(context echo.Context) error {
-	songRows, _ := h.service.FetchSongsByPlaylistID("37i9dQZF1EIYu6DnUqszn9")
+	playlistID := context.Param(playlistID)
+
+	songRows, fetchErr := h.service.FetchSongsByPlaylistID(playlistID)
+	if fetchErr != nil {
+		return getHttpHandledErrorResponse(context, fetchErr)
+	}
 
 	songs := make([]response.SongDTO, 0)
 	for _, each := range songRows {
+		artists := make([]response.ArtistDTO, 0)
+		for _, eachArtist := range each.Artists() {
+			artistBuilder := response.NewArtistWithLowDataDTO(
+				eachArtist.ID(),
+				eachArtist.Name(),
+				*eachArtist.SpotifyURL(),
+			)
+
+			artists = append(artists, *artistBuilder)
+		}
 		songBuilder := response.NewSongDTO(
-			each.ID(), 
-			each.Name(), 
-			each.ArtistID(), 
-			each.AlbumID(), 
-			each.ReleaseDate(), 
+			each.ID(),
+			each.Name(),
+			artists,
+			each.AlbumID(),
+			each.ReleaseDate(),
 			each.Duration(),
 		)
 		songs = append(songs, *songBuilder)

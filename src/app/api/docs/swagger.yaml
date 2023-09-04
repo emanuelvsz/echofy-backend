@@ -22,6 +22,21 @@ definitions:
       field_name:
         type: string
     type: object
+  response.SongDTO:
+    properties:
+      album_id:
+        type: string
+      artist_id:
+        type: string
+      duration:
+        type: integer
+      id:
+        type: string
+      name:
+        type: string
+      release_date:
+        type: string
+    type: object
 info:
   contact:
     email: evs10@aluno.ifal.edu.br
@@ -75,12 +90,21 @@ paths:
       description: Rota que permite que se busque todas as músicas de uma determinada
         playlist
       operationId: GetSongsByPlaylistID
+      parameters:
+      - default: 7pCvSVfjcnOw6AFJNZZ4bN
+        description: ID do artista.
+        in: path
+        name: playlistID
+        required: true
+        type: string
       produces:
       - application/json
       responses:
         "200":
           description: Requisição realizada com sucesso.
           schema:
+            items:
+              $ref: '#/definitions/response.SongDTO'
             type: array
         "401":
           description: Usuário não autorizado.

@@ -7,19 +7,19 @@ import (
 )
 
 type SongDTO struct {
-	ID          string     `json:"id"`
-	Name        string     `json:"name"`
-	ArtistID    uuid.UUID  `json:"artist_id"`
-	AlbumID     *uuid.UUID `json:"album_id,omitempty"`
-	ReleaseDate time.Time  `json:"release_date"`
-	Duration    int        `json:"duration"`
+	ID          string      `json:"id"`
+	Name        string      `json:"name"`
+	Artists     []ArtistDTO `json:"artists"`
+	AlbumID     *uuid.UUID  `json:"album_id,omitempty"`
+	ReleaseDate time.Time   `json:"release_date,omitempty"`
+	Duration    int         `json:"duration"`
 }
 
-func NewSongDTO(ID, Name string, ArtistID uuid.UUID, AlbumID *uuid.UUID, ReleaseDate time.Time, Duration int) *SongDTO {
+func NewSongDTO(ID, Name string, Artists []ArtistDTO, AlbumID *uuid.UUID, ReleaseDate time.Time, Duration int) *SongDTO {
 	return &SongDTO{
 		ID:          ID,
 		Name:        Name,
-		ArtistID:    ArtistID,
+		Artists:     Artists,
 		AlbumID:     AlbumID,
 		ReleaseDate: ReleaseDate,
 		Duration:    Duration,

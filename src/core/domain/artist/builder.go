@@ -14,8 +14,8 @@ type Builder struct {
 	invalidFields []errors.InvalidField
 }
 
-func (b *Builder) WithID(id uuid.UUID) *Builder {
-	if id == uuid.Nil {
+func (b *Builder) WithID(id string) *Builder {
+	if id == "" {
 		b.invalidFields = append(b.invalidFields, errors.InvalidField{
 			Name:        messages.ArtistID,
 			Description: messages.ArtistIDInvalidErrMsg,

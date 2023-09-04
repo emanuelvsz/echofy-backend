@@ -2,6 +2,7 @@ package song
 
 import (
 	"echofy_backend/src/core/domain"
+	"echofy_backend/src/core/domain/artist"
 	"echofy_backend/src/core/errors"
 	"echofy_backend/src/core/messages"
 	"net/url"
@@ -39,14 +40,14 @@ func (b *Builder) WithName(name string) *Builder {
 	return b
 }
 
-func (b *Builder) WithArtistID(artistID uuid.UUID) *Builder {
-	if artistID == uuid.Nil {
+func (b *Builder) WithArtists(artists []artist.Artist) *Builder {
+	if artists == nil{
 		b.invalidFields = append(b.invalidFields, errors.InvalidField{
 			Name:        messages.SongArtistID,
 			Description: messages.SongArtistIDInvalidErrMsg,
 		})
 	} else {
-		b.artistID = artistID
+		b.artists = artists
 	}
 	return b
 }

@@ -7,7 +7,7 @@ import (
 )
 
 type Artist struct {
-	id              uuid.UUID
+	id              string
 	name            string
 	superArtistID   *uuid.UUID
 	description     *string
@@ -20,7 +20,7 @@ type Artist struct {
 	spotifyURL      *string
 }
 
-func (a Artist) ID() uuid.UUID {
+func (a Artist) ID() string {
 	return a.id
 }
 

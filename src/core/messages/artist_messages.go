@@ -24,4 +24,6 @@ const (
 	ArtistCountryIDInvalidErrMsg = "O ID do país do artista é inválido"
 	ArtistSpotifyURL = "URL do Spotify do artista"
 	ArtistSpotifyURLInvalidErrMsg = "A URL do Spotify do artista é inválida"
+	PlaylistID = "ID da playlist"
+	PlaylistIDInvalidErrMsg = "O ID da playlist é inválido"
 	)

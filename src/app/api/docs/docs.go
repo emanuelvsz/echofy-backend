@@ -84,11 +84,24 @@ const docTemplate = `{
                 ],
                 "summary": "Buscar todas as músicas de uma playlist",
                 "operationId": "GetSongsByPlaylistID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "7pCvSVfjcnOw6AFJNZZ4bN",
+                        "description": "ID do artista.",
+                        "name": "playlistID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Requisição realizada com sucesso.",
                         "schema": {
-                            "type": "array"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/response.SongDTO"
+                            }
                         }
                     },
                     "401": {
@@ -156,6 +169,29 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "field_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "response.SongDTO": {
+            "type": "object",
+            "properties": {
+                "album_id": {
+                    "type": "string"
+                },
+                "artist_id": {
+                    "type": "string"
+                },
+                "duration": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "release_date": {
                     "type": "string"
                 }
             }

@@ -7,16 +7,17 @@ import (
 )
 
 type ArtistDTO struct {
-	ID            uuid.UUID   `json:"id"`
+	ID            string      `json:"id"`
 	Name          string      `json:"name"`
 	SuperArtistID *uuid.UUID  `json:"super_artist_id,omitempty"`
-	Description   *string     `json:"description"`
-	FoundedAt     time.Time   `json:"founded_at"`
-	TerminatedAt  *time.Time  `json:"terminated_at"`
+	Description   *string     `json:"description,omitempty"`
+	FoundedAt     time.Time   `json:"founded_at,omitempty"`
+	TerminatedAt  *time.Time  `json:"terminated_at,omitempty"`
 	SubArtists    []ArtistDTO `json:"members,omitempty"`
+	SpotifyURL    string      `json:"spotify_url,omitempty"`
 }
 
-func NewArtistDTO(id uuid.UUID, name string, superArtistID *uuid.UUID, description *string, foundedAt time.Time, terminatedAt *time.Time, subArtists []ArtistDTO) *ArtistDTO {
+func NewArtistDTO(id string, name string, superArtistID *uuid.UUID, description *string, foundedAt time.Time, terminatedAt *time.Time, subArtists []ArtistDTO) *ArtistDTO {
 	return &ArtistDTO{
 		ID:            id,
 		Name:          name,
@@ -33,7 +34,7 @@ type ArtistLowDTO struct {
 	Name            string      `json:"name"`
 	SuperArtistID   *uuid.UUID  `json:"super_artist_id,omitempty"`
 	Description     *string     `json:"description,omitempty"`
-	FoundedAt       time.Time   `json:"founded_at"`
+	FoundedAt       time.Time   `json:"founded_at,omitempty"`
 	TerminatedAt    *time.Time  `json:"terminated_at,omitempty"`
 	SubArtists      []ArtistDTO `json:"members,omitempty"`
 	ImageURL        *string     `json:"picture_url,omitempty"`
@@ -57,5 +58,19 @@ func NewArtistLowDTO(id uuid.UUID, name string, superArtistID *uuid.UUID, descri
 		RecordCompanyID: recordCompanyID,
 		CountryID:       countryID,
 		SpotifyURL:      spotifyURL,
+	}
+}
+
+type ArtistWithLowDataDTO struct {
+	ID         string `json:"id"`
+	Name       string `json:"name"`
+	SpotifyURL string `json:"spotify_url,omitempty"`
+}
+
+func NewArtistWithLowDataDTO(id, name, spotifyURL string) *ArtistDTO {
+	return &ArtistDTO{
+		ID:         id,
+		Name:       name,
+		SpotifyURL: spotifyURL,
 	}
 }

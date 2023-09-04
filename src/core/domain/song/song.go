@@ -1,6 +1,7 @@
 package song
 
 import (
+	"echofy_backend/src/core/domain/artist"
 	"time"
 
 	"github.com/google/uuid"
@@ -9,7 +10,7 @@ import (
 type Song struct {
 	id          string
 	name        string
-	artistID    uuid.UUID
+	artists     []artist.Artist
 	albumID     *uuid.UUID
 	releaseDate time.Time
 	duration    int
@@ -26,8 +27,8 @@ func (s Song) Name() string {
 	return s.name
 }
 
-func (s Song) ArtistID() uuid.UUID {
-	return s.artistID
+func (s Song) Artists() []artist.Artist {
+	return s.artists
 }
 
 func (s Song) AlbumID() *uuid.UUID {
