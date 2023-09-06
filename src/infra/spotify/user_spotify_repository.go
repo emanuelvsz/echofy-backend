@@ -8,6 +8,7 @@ import (
 	"echofy_backend/src/core/errors"
 	"echofy_backend/src/core/interfaces/repository"
 	"echofy_backend/src/core/messages"
+	"fmt"
 
 	"github.com/zmb3/spotify/v2"
 	spotifyauth "github.com/zmb3/spotify/v2/auth"
@@ -114,6 +115,24 @@ func (u UserSpotifyRepository) FindPlaylistByID(playlistID string) (*playlist.Pl
 	}
 
 	return playlist, nil
+}
+
+func (u UserSpotifyRepository) Authorize() errors.Error {
+	ctx := context.Background()
+	token := getConnection(ctx)
+
+	httpClient := spotifyauth.New().Client(ctx, token)
+	client := spotify.New(httpClient)
+
+	fmt.Println("----------------------------------- current user")
+	fmt.Println(client.CurrentUser(ctx))
+
+	fmt.Println("----------------------------------- current user tracks")
+	fmt.Println(client.CurrentUsersTracks(ctx))
+
+	fmt.Println("----------------------------------- current user top tracks")
+	fmt.Println(client.CurrentUsersTopTracks(ctx))
+	return nil
 }
 
 func NewUserSpotifyRepository() *UserSpotifyRepository {

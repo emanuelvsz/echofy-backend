@@ -81,6 +81,40 @@ info:
   title: ECHOFY API
   version: "1.0"
 paths:
+  /anonymous/authorize:
+    get:
+      description: Authorize
+      operationId: Authorize
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Requisição realizada com sucesso.
+          schema:
+            $ref: '#/definitions/response.PlaylistDTO'
+        "401":
+          description: Usuário não autorizado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "403":
+          description: Acesso negado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "422":
+          description: Algum dado informado não pôde ser processado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "500":
+          description: Ocorreu um erro inesperado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "503":
+          description: A base de dados não está disponível.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+      summary: Authorize
+      tags:
+      - Rotas anônimas
   /auth/login:
     post:
       consumes:
