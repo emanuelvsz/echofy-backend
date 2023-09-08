@@ -19,22 +19,39 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/anonymous/authorize": {
+        "/anonymous/callback": {
             "get": {
-                "description": "Authorize",
+                "description": "Esta rota é usada para processar o código de autorização e o estado.",
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "Rotas anônimas"
                 ],
-                "summary": "Authorize",
-                "operationId": "Authorize",
+                "summary": "Fazer a autenticação no sistema",
+                "operationId": "CallBack",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "O código de autorização recebido após a autenticação.",
+                        "name": "code",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Um valor de estado aleatório usado para proteção CSRF",
+                        "name": "state",
+                        "in": "query"
+                    }
+                ],
                 "responses": {
-                    "200": {
-                        "description": "Requisição realizada com sucesso.",
+                    "400": {
+                        "description": "Requisição mal formulada.",
                         "schema": {
-                            "$ref": "#/definitions/response.PlaylistDTO"
+                            "$ref": "#/definitions/response.ErrorMessage"
                         }
                     },
                     "401": {
@@ -70,9 +87,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/auth/login": {
-            "post": {
-                "description": "Rota que permite que um usuário se autentique no sistema utilizando seu endereço de e-mail e senha.\n| E-mail              | Senha     | Função                                                            |\n|---------------------|-----------|-------------------------------------------------------------------|\n| admin@ifal.edu.br   | Test1234! | Usuário comum do sistema\t\t\t\t\t\t\t\t\t\t  |",
+        "/anonymous/login": {
+            "get": {
+                "description": "Rota que permite que um usuário se autentique no Echofy com seus dados de sua conta do Spotify.\t\t\t\t\t\t\t\t\t\t  |",
                 "consumes": [
                     "application/json"
                 ],
@@ -80,9 +97,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Rotas de autenticação"
+                    "Rotas anônimas"
                 ],
-                "summary": "Fazer login no sistema",
+                "summary": "Fazer a autenticação no sistema",
                 "operationId": "Login",
                 "responses": {
                     "400": {

@@ -94,31 +94,6 @@ func (h UserHandlers) GetPlaylistByID(context echo.Context) error {
 	return context.JSON(http.StatusOK, playlist)
 }
 
-// Authorize
-// @ID Authorize
-// @Summary Authorize
-// @Tags Rotas anônimas
-// @Description Authorize
-// @Produce json
-// @Success 200 {object} response.PlaylistDTO "Requisição realizada com sucesso."
-// @Failure 401 {object} response.ErrorMessage "Usuário não autorizado."
-// @Failure 403 {object} response.ErrorMessage "Acesso negado."
-// @Failure 422 {object} response.ErrorMessage "Algum dado informado não pôde ser processado."
-// @Failure 500 {object} response.ErrorMessage "Ocorreu um erro inesperado."
-// @Failure 503 {object} response.ErrorMessage "A base de dados não está disponível."
-// @Router /anonymous/authorize [get]
-func (h UserHandlers) Authorize(context echo.Context) error {
-    err := StartAuthorization(context)
-    if err != nil {
-        // Lide com erros, se necessário
-        return context.JSON(http.StatusInternalServerError, "Erro ao iniciar o processo de autorização")
-    }
-
-    // O processo de autorização foi iniciado com sucesso, não é necessário retornar uma resposta aqui
-    return nil
-}
-
-
 func NewUserHandlers(service primary.UserManager) *UserHandlers {
 	return &UserHandlers{service: service}
 }

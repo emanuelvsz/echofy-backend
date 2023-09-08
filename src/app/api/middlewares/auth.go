@@ -1,18 +1,16 @@
 package middlewares
 
 import (
-	"fmt"
-	"echofy_backend/src/app/api/endpoints/dicontainer"
 	"echofy_backend/src/app/api/endpoints/handlers/dtos/response"
 	"echofy_backend/src/app/api/utils"
 	"echofy_backend/src/core/messages"
 	"echofy_backend/src/utils/strloader"
+	"fmt"
 	"net/http"
 	"os"
 	"strings"
 
 	"github.com/casbin/casbin/v2"
-	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 	"github.com/rs/zerolog/log"
 )
@@ -38,7 +36,6 @@ func GuardMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 		log.Fatal().Err(err)
 	}
 
-	authService := dicontainer.GetAuthServices()
 	return func(context echo.Context) error {
 		authHeader := context.Request().Header.Get("Authorization")
 		method := context.Request().Method
@@ -60,17 +57,6 @@ func GuardMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 		if claims == nil {
 			return context.JSON(forbiddenErrorMessage.StatusCode, forbiddenErrorMessage)
 		}
-
-		uID, err := uuid.Parse(claims.AccountID)
-		if err != nil {
-			return context.JSON(forbiddenErrorMessage.StatusCode, forbiddenErrorMessage)
-		}
-
-		sessionExists, err := authService.SessionExists(uID, authToken)
-		if !sessionExists || err != nil {
-			return context.JSON(unauthorizedErrorMessage.StatusCode, unauthorizedErrorMessage)
-		}
-
 		return next(context)
 	}
 }

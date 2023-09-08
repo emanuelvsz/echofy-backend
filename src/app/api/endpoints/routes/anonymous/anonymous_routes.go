@@ -8,7 +8,7 @@ import (
 
 func LoadAnonymousRoute(group *echo.Group) {
 	anonyousGroup := group.Group("/anonymous")
-	userHandlers := dicontainer.GetUserHandlers()
+	authHandlers := dicontainer.GetAuthHandlers()
 
-	anonyousGroup.GET("/authorize", userHandlers.Authorize)
+	anonyousGroup.GET("/login", authHandlers.Login)
 }

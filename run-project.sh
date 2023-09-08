@@ -30,4 +30,4 @@ echo "\
 +-----------------+\
 "
 
-go run ./src/app/api
+go run ./src/app/api/main.go

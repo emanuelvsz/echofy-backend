@@ -1,8 +1,6 @@
 package postgres
 
 import (
-	u "echofy_backend/src/core/domain/user"
-	"echofy_backend/src/core/domain/user/credentials"
 	"echofy_backend/src/core/errors"
 	"echofy_backend/src/core/interfaces/repository"
 )
@@ -13,8 +11,8 @@ type AuthPostgresRepository struct {
 	connectorManager
 }
 
-func (instance *AuthPostgresRepository) Login(credentials credentials.Credentials) (*u.User, errors.Error) {
-	return nil, nil
+func (instance *AuthPostgresRepository) Login() errors.Error {
+	return nil
 }
 
 // func (instance AuthPostgresRepository) handleError(err error) errors.Error {

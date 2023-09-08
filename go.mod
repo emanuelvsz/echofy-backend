@@ -16,6 +16,7 @@ require (
 	github.com/rs/zerolog v1.30.0
 	github.com/swaggo/echo-swagger v1.4.1
 	github.com/swaggo/swag v1.16.2
+	github.com/zmb3/spotify v1.3.0
 	github.com/zmb3/spotify/v2 v2.3.1
 	golang.org/x/crypto v0.12.0
 	golang.org/x/oauth2 v0.1.0
