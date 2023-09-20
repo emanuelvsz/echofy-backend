@@ -34,15 +34,6 @@ func (u UserServices) FetchPlaylistByID(playlistID string) (*playlist.Playlist, 
 	return playlist, nil
 }
 
-func (u UserServices) Authorize() (errors.Error) {
-	err := u.userRepository.Authorize()
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
-
 func NewUserServices(userRepository repository.UserLoader, logger logger.Logger) *UserServices {
 	return &UserServices{
 		userRepository: userRepository,

@@ -8,7 +8,6 @@ import (
 	"echofy_backend/src/core/errors"
 	"echofy_backend/src/core/interfaces/repository"
 	"echofy_backend/src/core/messages"
-	"fmt"
 
 	"github.com/zmb3/spotify/v2"
 	spotifyauth "github.com/zmb3/spotify/v2/auth"
@@ -70,29 +69,6 @@ func (u UserSpotifyRepository) FindSongsByPlaylistID(playlistID string) ([]song.
 	return songs, nil
 }
 
-func (u UserSpotifyRepository) FindArtistByID(artistID string) (*artist.Artist, errors.Error) {
-	ctx := context.Background()
-	token := getConnection(ctx)
-
-	httpClient := spotifyauth.New().Client(ctx, token)
-	client := spotify.New(httpClient)
-
-	artistRow, fetchError := client.GetArtist(ctx, spotify.ID(artistID))
-	if fetchError != nil {
-		return nil, errors.NewUnexpectedError(messages.UnexpectedErrorMessage, fetchError)
-	}
-
-	artistBuilder := artist.NewBuilder()
-	artistBuilder.WithID(string(artistRow.ID)).WithName(artistRow.Name).WithImageURL(&artistRow.Images[0].URL)
-	artistBuilder.WithSpotifyURL((*string)(&artistRow.URI))
-	artist, createError := artistBuilder.Build()
-	if createError != nil {
-		return nil, errors.NewUnexpectedError(messages.UnexpectedErrorMessage, createError)
-	}
-
-	return artist, nil
-}
-
 func (u UserSpotifyRepository) FindPlaylistByID(playlistID string) (*playlist.Playlist, errors.Error) {
 	ctx := context.Background()
 	token := getConnection(ctx)
@@ -115,24 +91,6 @@ func (u UserSpotifyRepository) FindPlaylistByID(playlistID string) (*playlist.Pl
 	}
 
 	return playlist, nil
-}
-
-func (u UserSpotifyRepository) Authorize() errors.Error {
-	ctx := context.Background()
-	token := getConnection(ctx)
-
-	httpClient := spotifyauth.New().Client(ctx, token)
-	client := spotify.New(httpClient)
-
-	fmt.Println("----------------------------------- current user")
-	fmt.Println(client.CurrentUser(ctx))
-
-	fmt.Println("----------------------------------- current user tracks")
-	fmt.Println(client.CurrentUsersTracks(ctx))
-
-	fmt.Println("----------------------------------- current user top tracks")
-	fmt.Println(client.CurrentUsersTopTracks(ctx))
-	return nil
 }
 
 func NewUserSpotifyRepository() *UserSpotifyRepository {
