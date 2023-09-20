@@ -19,75 +19,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/anonymous/callback": {
-            "get": {
-                "description": "Esta rota é usada para processar o código de autorização e o estado.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Rotas anônimas"
-                ],
-                "summary": "Fazer a autenticação no sistema",
-                "operationId": "CallBack",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "O código de autorização recebido após a autenticação.",
-                        "name": "code",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "Um valor de estado aleatório usado para proteção CSRF",
-                        "name": "state",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "400": {
-                        "description": "Requisição mal formulada.",
-                        "schema": {
-                            "$ref": "#/definitions/response.ErrorMessage"
-                        }
-                    },
-                    "401": {
-                        "description": "Usuário não autorizado.",
-                        "schema": {
-                            "$ref": "#/definitions/response.ErrorMessage"
-                        }
-                    },
-                    "403": {
-                        "description": "Acesso negado.",
-                        "schema": {
-                            "$ref": "#/definitions/response.ErrorMessage"
-                        }
-                    },
-                    "422": {
-                        "description": "Algum dado informado não pôde ser processado.",
-                        "schema": {
-                            "$ref": "#/definitions/response.ErrorMessage"
-                        }
-                    },
-                    "500": {
-                        "description": "Ocorreu um erro inesperado.",
-                        "schema": {
-                            "$ref": "#/definitions/response.ErrorMessage"
-                        }
-                    },
-                    "503": {
-                        "description": "A base de dados não está disponível.",
-                        "schema": {
-                            "$ref": "#/definitions/response.ErrorMessage"
-                        }
-                    }
-                }
-            }
-        },
-        "/anonymous/login": {
+        "/anonymous/authenticate": {
             "get": {
                 "description": "Rota que permite que um usuário se autentique no Echofy com seus dados de sua conta do Spotify.\t\t\t\t\t\t\t\t\t\t  |",
                 "consumes": [

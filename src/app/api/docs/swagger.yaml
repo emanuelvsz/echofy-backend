@@ -81,52 +81,7 @@ info:
   title: ECHOFY API
   version: "1.0"
 paths:
-  /anonymous/callback:
-    get:
-      consumes:
-      - application/json
-      description: Esta rota é usada para processar o código de autorização e o estado.
-      operationId: CallBack
-      parameters:
-      - description: O código de autorização recebido após a autenticação.
-        in: query
-        name: code
-        type: string
-      - description: Um valor de estado aleatório usado para proteção CSRF
-        in: query
-        name: state
-        type: string
-      produces:
-      - application/json
-      responses:
-        "400":
-          description: Requisição mal formulada.
-          schema:
-            $ref: '#/definitions/response.ErrorMessage'
-        "401":
-          description: Usuário não autorizado.
-          schema:
-            $ref: '#/definitions/response.ErrorMessage'
-        "403":
-          description: Acesso negado.
-          schema:
-            $ref: '#/definitions/response.ErrorMessage'
-        "422":
-          description: Algum dado informado não pôde ser processado.
-          schema:
-            $ref: '#/definitions/response.ErrorMessage'
-        "500":
-          description: Ocorreu um erro inesperado.
-          schema:
-            $ref: '#/definitions/response.ErrorMessage'
-        "503":
-          description: A base de dados não está disponível.
-          schema:
-            $ref: '#/definitions/response.ErrorMessage'
-      summary: Fazer a autenticação no sistema
-      tags:
-      - Rotas anônimas
-  /anonymous/login:
+  /anonymous/authenticate:
     get:
       consumes:
       - application/json

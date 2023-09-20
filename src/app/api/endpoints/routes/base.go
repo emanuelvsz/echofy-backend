@@ -12,8 +12,7 @@ type Router interface {
 	Load(*echo.Group)
 }
 
-type router struct {
-}
+type router struct {}
 
 func New() Router {
 	return &router{}
