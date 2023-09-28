@@ -35,7 +35,7 @@ func (u UserSpotifyRepository) FindSongsByPlaylistID(playlistID string) ([]song.
 		trackName := track.Name
 		trackNumber := track.TrackNumber
 		trackDuration := track.Duration
-		trackURL := track.PreviewURL //
+		trackURL := track.PreviewURL 
 		trackRelease := track.Album.ReleaseDateTime()
 
 		artists := make([]artist.Artist, 0)
