@@ -99,7 +99,7 @@ func (h UserHandlers) GetPlaylistByID(context echo.Context) error {
 // @Summary Buscar todas as músicas de um Álbum
 // @Tags Rotas do usuário
 // @Description Rota que permite que se busque todas as músicas de uma determinado Álbum
-// @Param albumID path string true "ID do Álbum." default(7pCvSVfjcnOw6AFJNZZ4bN)
+// @Param albumID path string true "ID do Álbum." default(3WFTGIO6E3Xh4paEOBY9OU)
 // @Produce json
 // @Success 200 {array} response.SongDTO "Requisição realizada com sucesso."
 // @Failure 401 {object} response.ErrorMessage "Usuário não autorizado."
