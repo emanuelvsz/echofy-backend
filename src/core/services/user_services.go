@@ -34,6 +34,14 @@ func (u UserServices) FetchPlaylistByID(playlistID string) (*playlist.Playlist, 
 	return playlist, nil
 }
 
+func (u UserServices) FetchSongsByAlbumID(albumID string) ([]song.Song, errors.Error) {
+	album, err := u.userRepository.FindSongsByAlbumID(albumID)
+	if err != nil {
+		return nil, err
+	}
+	return album, nil
+}
+
 func NewUserServices(userRepository repository.UserLoader, logger logger.Logger) *UserServices {
 	return &UserServices{
 		userRepository: userRepository,
