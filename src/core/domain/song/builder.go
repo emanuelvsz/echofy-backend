@@ -41,7 +41,7 @@ func (b *Builder) WithName(name string) *Builder {
 }
 
 func (b *Builder) WithArtists(artists []artist.Artist) *Builder {
-	if artists == nil{
+	if artists == nil {
 		b.invalidFields = append(b.invalidFields, errors.InvalidField{
 			Name:        messages.SongArtistID,
 			Description: messages.SongArtistIDInvalidErrMsg,

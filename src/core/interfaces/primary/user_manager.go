@@ -9,4 +9,5 @@ import (
 type UserManager interface {
 	FetchSongsByPlaylistID(playlistID string) ([]song.Song, errors.Error)
 	FetchPlaylistByID(playlistID string) (*playlist.Playlist, errors.Error)
+	FetchSongsByAlbumID(albumID string) ([]song.Song, errors.Error)
 }

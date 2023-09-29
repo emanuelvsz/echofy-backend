@@ -9,4 +9,5 @@ import (
 type UserLoader interface {
 	FindSongsByPlaylistID(playlistID string) ([]song.Song, errors.Error)
 	FindPlaylistByID(playlistID string) (*playlist.Playlist, errors.Error)
+	FindSongsByAlbumID(albumID string) ([]song.Song, errors.Error)
 }
