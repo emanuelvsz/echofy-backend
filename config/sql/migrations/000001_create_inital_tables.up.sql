@@ -207,5 +207,5 @@ create table if not exists token (
     refresh_token text not null,
     access_token text not null
 
-    constraint pk_token (refresh_token, access_token)
+    constraint pk_token (refresh_token, access_token) primary key
 );
