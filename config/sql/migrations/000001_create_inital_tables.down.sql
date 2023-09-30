@@ -8,6 +8,8 @@ drop table role,
     genre,
     artist_genre,
     song_genre,
-    album_genre;
+    album_genre,
+    logged_user,
+    token;
 
 drop extension "uuid-ossp";

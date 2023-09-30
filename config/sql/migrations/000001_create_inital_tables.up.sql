@@ -192,3 +192,20 @@ create table if not exists album_genre
     constraint fk_album_genre_genre_id
         foreign key (genre_id) references genre (id)
 );
+
+create table if not exists logged_user (
+    id uuid not null
+        constraint pk_logged_user_id primary key
+        constraint df_logged_user_id default uuid_generate_v4(),
+    token_id uuid not null
+        constraint fk_logged_user_token_id 
+        references token (id),
+    name varchar(32)
+);
+
+create table if not exists token (
+    refresh_token text not null,
+    access_token text not null
+
+    constraint pk_token (refresh_token, access_token)
+);
