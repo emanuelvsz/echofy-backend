@@ -12,4 +12,4 @@ O echofy, tem o intuito de mostrar ao usuário suas informações adicionais do 
 
 ## Observação:
 
-Ao desenvolver as rotas, pode-se usar tanto a biblioteca ``spotify``, que já está sendo utilizada no repositório do projeto, quando fazer as requisições diretamente da api do próprio spotify, se quiser saber como fazer isso, me chamme.
+Ao desenvolver as rotas pode-se usar tanto a biblioteca ``spotify``, que já está sendo utilizada no repositório do projeto, quanto fazer as requisições diretamente da api do próprio spotify, se quiser saber como fazer isso, me chamme.
