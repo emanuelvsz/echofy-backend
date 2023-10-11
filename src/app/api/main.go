@@ -30,7 +30,7 @@ const defaultEnvFilePath = "./src/app/api/.env"
 func main() {
 	loadEnvIntoSystemFromFile()
 
-	setupPostgres()
+	// setupPostgres()
 	Serve(
 		cfg.Env().Server.Host,
 		cfg.Env().Server.Port,
