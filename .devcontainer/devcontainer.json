@@ -1,0 +1,22 @@
+{
+	"name": "DEV_GLEITOS",
+	"build": {"dockerfile": "Dockerfile.echofy"},
+	"features": {
+		"ghcr.io/devcontainers/features/docker-in-docker:2.5.0": {}
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"golang.Go",
+				"golang.go-nightly",
+				"PKief.material-icon-theme",
+				"ms-azuretools.vscode-docker",
+				"rocketseat.theme-omni"
+			]
+		}
+	},
+
+	"forwardPorts": [8000],
+
+	"remoteUser": "root"
+}

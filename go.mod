@@ -5,6 +5,7 @@ go 1.20
 require (
 	github.com/casbin/casbin/v2 v2.77.2
 	github.com/gabrielsoaressantos/env/v8 v8.0.0-20230408234410-f70ad901ee3c
+	github.com/go-redis/redis v6.15.9+incompatible
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/golang-migrate/migrate/v4 v4.16.2
 	github.com/google/uuid v1.3.1
@@ -16,7 +17,6 @@ require (
 	github.com/rs/zerolog v1.30.0
 	github.com/swaggo/echo-swagger v1.4.1
 	github.com/swaggo/swag v1.16.2
-	github.com/zmb3/spotify v1.3.0
 	github.com/zmb3/spotify/v2 v2.3.1
 	golang.org/x/crypto v0.12.0
 	golang.org/x/oauth2 v0.1.0
@@ -39,6 +39,7 @@ require (
 	github.com/mailru/easyjson v0.7.7 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.19 // indirect
+	github.com/nxadm/tail v1.4.11 // indirect
 	github.com/swaggo/files/v2 v2.0.0 // indirect
 	github.com/tidwall/gjson v1.14.4 // indirect
 	github.com/tidwall/match v1.1.1 // indirect

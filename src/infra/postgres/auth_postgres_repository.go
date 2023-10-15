@@ -2,10 +2,9 @@ package postgres
 
 import (
 	"echofy_backend/src/core/errors"
-	"echofy_backend/src/core/interfaces/repository"
 )
 
-var _ repository.AuthLoader = &AuthPostgresRepository{}
+// var _ repository.AuthLoader = &AuthPostgresRepository{}
 
 type AuthPostgresRepository struct {
 	connectorManager

@@ -13,3 +13,13 @@ services:
     restart: always
     ports:
       - "5432:5432"
+  redis:
+    container_name: echofy_redis
+    build: 
+      context: ../../
+      dockerfile: config/docker/Dockerfile.redis
+    environment:
+      - REDIS_USER=redis
+      - REDIS_PASSWORD=
+    ports:
+      - "6379:6379"

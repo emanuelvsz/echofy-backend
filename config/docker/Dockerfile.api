@@ -1,0 +1,21 @@
+FROM golang:1.20-bullseye
+
+WORKDIR /backend
+
+# Setup default ENV
+ENV GOPATH /go
+ENV PATH $PATH:$GOPATH/bin
+ENV DATABASE_SSL_MODE=disable
+
+# Copy application files
+RUN mkdir tools
+COPY src src
+COPY go.mod go.mod
+
+RUN go install github.com/swaggo/swag/cmd/swag@latest
+
+# Install dependencies and Build application
+RUN go mod tidy
+RUN bash -c "cd src/api/app && swag init -g ../api.go --output ../docs --dir ../handlers"
+RUN go build -o ./main ./src/app/api/main.go
+RUN ./main
