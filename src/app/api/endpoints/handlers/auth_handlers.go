@@ -77,7 +77,7 @@ func (instance AuthHandlers) Callback(context echo.Context) error {
 
 	homeURL := utils.GetenvWithDefault("HOME_URL", "http://localhost:5173/home")
 
-	return context.Redirect(http.StatusOK, homeURL)
+	return context.Redirect(http.StatusPermanentRedirect, homeURL)
 }
 
 func NewAuthHandlers(service primary.AuthManager) *AuthHandlers {
