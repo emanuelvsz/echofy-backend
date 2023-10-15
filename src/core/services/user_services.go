@@ -3,6 +3,7 @@ package services
 import (
 	"echofy_backend/src/core/domain/playlist"
 	"echofy_backend/src/core/domain/song"
+	"echofy_backend/src/core/domain/user"
 	"echofy_backend/src/core/errors"
 	"echofy_backend/src/core/errors/logger"
 	"echofy_backend/src/core/interfaces/primary"
@@ -40,6 +41,15 @@ func (u UserServices) FetchSongsByAlbumID(albumID string) ([]song.Song, errors.E
 		return nil, err
 	}
 	return album, nil
+}
+
+func (u UserServices) FetchUserBasicInfo() (*user.User, errors.Error) {
+	user, err := u.userRepository.FindUserBasicInfo()
+	if err != nil {
+		return nil, err
+	}
+
+	return user, nil
 }
 
 func NewUserServices(userRepository repository.UserLoader, logger logger.Logger) *UserServices {

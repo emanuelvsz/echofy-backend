@@ -1,32 +1,19 @@
 package user
 
-import (
-	"github.com/google/uuid"
-)
-
 type User struct {
-	id         uuid.UUID
+	id         *string
 	name       string
 	pictureURL string
-	password   string
-	hash       string
 	email      string
+	uri        string
 }
 
-func (u User) ID() uuid.UUID {
+func (u User) ID() *string {
 	return u.id
 }
 
 func (u User) Name() string {
 	return u.name
-}
-
-func (u User) Hash() string {
-	return u.hash
-}
-
-func (u User) Password() string {
-	return u.password
 }
 
 func (u User) PictureURL() string {
@@ -35,4 +22,8 @@ func (u User) PictureURL() string {
 
 func (u User) Email() string {
 	return u.email
+}
+
+func (u User) URI() string {
+	return u.uri
 }

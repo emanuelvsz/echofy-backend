@@ -5,12 +5,15 @@ import (
 	"echofy_backend/src/core/domain/artist"
 	"echofy_backend/src/core/domain/playlist"
 	"echofy_backend/src/core/domain/song"
+	"echofy_backend/src/core/domain/user"
 	"echofy_backend/src/core/errors"
 	"echofy_backend/src/core/interfaces/repository"
 	"echofy_backend/src/core/messages"
+	"fmt"
 
 	"github.com/zmb3/spotify/v2"
 	spotifyauth "github.com/zmb3/spotify/v2/auth"
+	"golang.org/x/oauth2"
 )
 
 var _ repository.UserLoader = &UserSpotifyRepository{}
@@ -35,7 +38,7 @@ func (u UserSpotifyRepository) FindSongsByPlaylistID(playlistID string) ([]song.
 		trackName := track.Name
 		trackNumber := track.TrackNumber
 		trackDuration := track.Duration
-		trackURL := track.PreviewURL 
+		trackURL := track.PreviewURL
 		trackRelease := track.Album.ReleaseDateTime()
 
 		artists := make([]artist.Artist, 0)
@@ -142,7 +145,32 @@ func (u UserSpotifyRepository) FindSongsByAlbumID(albumID string) ([]song.Song, 
 	}
 
 	return songs, nil
+}
 
+func (instance UserSpotifyRepository) FindUserBasicInfo() (*user.User, errors.Error) {
+	ctx := context.Background()
+
+	// ! PASTE A VALID ACCESS TOKEN HERE
+	token := oauth2.Token{
+		AccessToken: "",
+	}
+
+	httpClient := spotifyauth.New().Client(ctx, &token)
+	client := spotify.New(httpClient)
+	userInfo, err := client.CurrentUser(ctx)
+	if err != nil {
+		return nil, errors.NewUnexpectedError(messages.UnexpectedErrorMessage, err)
+	}
+
+	userBuilder := user.NewBuilder().WithID(&userInfo.ID).WithName(userInfo.DisplayName).
+		WithEmail(userInfo.Email).WithPictureURL(userInfo.Images[0].URL).WithURI(string(userInfo.ExternalURLs["spotify"]))
+
+	user, err := userBuilder.Build()
+	if err != nil {
+		return nil, errors.NewUnexpectedError(messages.UnexpectedErrorMessage, err)
+	}
+
+	return user, nil
 }
 
 func NewUserSpotifyRepository() *UserSpotifyRepository {

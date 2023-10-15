@@ -142,6 +142,28 @@ func (h UserHandlers) GetAlbumTracks(context echo.Context) error {
 	return context.JSON(http.StatusOK, songs)
 }
 
+// GetUserBasicInfo
+// @ID GetUserBasicInfo
+// @Summary Buscar alguns dados pessoais do usuario
+// @Tags Rotas do usuário
+// @Description Rota que permite que se busque alguns dados do usuário autenticado
+// @Produce json
+// @Success 200 {array} response.UserDTO "Requisição realizada com sucesso."
+// @Failure 401 {object} response.ErrorMessage "Usuário não autorizado."
+// @Failure 403 {object} response.ErrorMessage "Acesso negado."
+// @Failure 422 {object} response.ErrorMessage "Algum dado informado não pôde ser processado."
+// @Failure 500 {object} response.ErrorMessage "Ocorreu um erro inesperado."
+// @Failure 503 {object} response.ErrorMessage "A base de dados não está disponível."
+// @Router /user [get]
+func (h UserHandlers) GetUserBasicInfo(context echo.Context) error {
+	userRow, fetchErr := h.service.FetchUserBasicInfo()
+	if fetchErr != nil {
+		return getHttpHandledErrorResponse(context, fetchErr)
+	}
+	user := response.NewUserDTO(*userRow)
+	return context.JSON(http.StatusOK, user)
+}
+
 func NewUserHandlers(service primary.UserManager) *UserHandlers {
 	return &UserHandlers{service: service}
 }
