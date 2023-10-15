@@ -8,7 +8,7 @@ import (
 )
 
 func GetAuthRepository() repository.AuthLoader {
-	return spotifyrepo.NewAuthSpotifyRepository()
+	return spotifyrepo.NewAuthSpotifyRepository(*spotifyrepo.LoadConfigFromEnv())
 }
 
 func GetSessionRepository() repository.SessionLoader {

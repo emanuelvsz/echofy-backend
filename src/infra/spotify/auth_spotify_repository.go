@@ -9,32 +9,23 @@ import (
 
 	"github.com/google/uuid"
 	"golang.org/x/oauth2"
-	"golang.org/x/oauth2/spotify"
 )
 
 var _ repository.AuthLoader = &AuthSpotifyRepository{}
 
-type AuthSpotifyRepository struct{}
-
-var (
-	oauth2Config = oauth2.Config{
-		ClientID:     "3348f4b437614e8b9c742c305eb9865b",
-		ClientSecret: "cd3d51d52a724d18aac6d3910534420c",
-		RedirectURL:  "https://5120-186-235-137-201.ngrok-free.app/api/anonymous/callback",
-		Scopes:       []string{"user-top-read", "user-library-read", "user-read-playback-state", "user-read-playback-position", "user-read-recently-played", "user-read-currently-playing"},
-		Endpoint:     spotify.Endpoint,
-	}
-)
+type AuthSpotifyRepository struct {
+	oauth2Config *oauth2.Config
+}
 
 func (instance *AuthSpotifyRepository) Login(state uuid.UUID) (string, errors.Error) {
-	authorizationURL := oauth2Config.AuthCodeURL(state.String())
+	authorizationURL := instance.oauth2Config.AuthCodeURL(state.String())
 
 	return authorizationURL, nil
 }
 
 func (instance *AuthSpotifyRepository) Callback(code string) (authorization.Authorization, errors.Error) {
 
-	token, excErr := oauth2Config.Exchange(context.Background(), code)
+	token, excErr := instance.oauth2Config.Exchange(context.Background(), code)
 	if excErr != nil {
 		err := errors.NewValidationError("Erro ao obter o Token de Acesso: " + excErr.Error())
 		return nil, err
@@ -58,6 +49,8 @@ func (instance *AuthSpotifyRepository) Callback(code string) (authorization.Auth
 	return authorization, nil
 }
 
-func NewAuthSpotifyRepository() *AuthSpotifyRepository {
-	return &AuthSpotifyRepository{}
+func NewAuthSpotifyRepository(oauth2Config oauth2.Config) *AuthSpotifyRepository {
+	return &AuthSpotifyRepository{
+		oauth2Config: &oauth2Config,
+	}
 }

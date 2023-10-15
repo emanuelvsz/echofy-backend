@@ -16,6 +16,7 @@ import (
 )
 
 const defaultEnvFilePath = "./src/app/api/.env"
+const defaultSpotifyEnvFilePath = "./src/app/api/.spotify.env"
 
 // NewAPI
 // @title ECHOFY API
@@ -29,6 +30,7 @@ const defaultEnvFilePath = "./src/app/api/.env"
 // @name Authorization
 func main() {
 	loadEnvIntoSystemFromFile()
+	loadSpotifyEnv()
 
 	// setupPostgres()
 	Serve(
@@ -53,6 +55,21 @@ func setupPostgres() {
 	err = postgres.MigrateUp()
 	if err != nil {
 		panic(err)
+	}
+}
+
+func loadSpotifyEnv() {
+	envPathPtr := flag.String(".spotify.env", "", "override environment variable path")
+	flag.Parse()
+	if *envPathPtr == "" {
+		*envPathPtr = defaultSpotifyEnvFilePath
+	}
+
+	err := godotenv.Load(*envPathPtr)
+	if err != nil {
+		log.Fatal().
+			Err(err).
+			Msg("failed to load spotify config from env")
 	}
 }
 
