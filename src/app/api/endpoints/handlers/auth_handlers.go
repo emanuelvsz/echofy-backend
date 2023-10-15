@@ -4,6 +4,7 @@ import (
 	"echofy_backend/src/app/api/endpoints/handlers/dtos/response"
 	"echofy_backend/src/core/errors"
 	"echofy_backend/src/core/interfaces/primary"
+	"echofy_backend/src/core/utils"
 	"net/http"
 
 	"github.com/google/uuid"
@@ -69,12 +70,14 @@ func (instance AuthHandlers) Callback(context echo.Context) error {
 		return getHttpHandledErrorResponse(context, validationErr)
 	}
 
-	auth, callbackErr := instance.service.Callback(code, stateID)
+	callbackErr := instance.service.Callback(code, stateID)
 	if callbackErr != nil {
 		return getHttpHandledErrorResponse(context, callbackErr)
 	}
 
-	return context.JSON(http.StatusOK, response.NewAuthorization(auth))
+	homeURL := utils.GetenvWithDefault("HOME_URL", "http://localhost:5173/home")
+
+	return context.Redirect(http.StatusOK, homeURL)
 }
 
 func NewAuthHandlers(service primary.AuthManager) *AuthHandlers {

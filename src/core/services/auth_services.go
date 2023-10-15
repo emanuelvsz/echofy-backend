@@ -1,7 +1,6 @@
 package services
 
 import (
-	"echofy_backend/src/core/domain/authorization"
 	"echofy_backend/src/core/errors"
 	"echofy_backend/src/core/errors/logger"
 	"echofy_backend/src/core/interfaces/primary"
@@ -36,32 +35,32 @@ func (a *AuthServices) Login() (string, errors.Error) {
 	return authURL, nil
 }
 
-func (a *AuthServices) Callback(code string, state uuid.UUID) (authorization.Authorization, errors.Error) {
+func (a *AuthServices) Callback(code string, state uuid.UUID) errors.Error {
 	sessionExists, err := a.sessionRepository.StateExists(state)
 	if err != nil {
 		a.logger.Log(err)
-		return nil, err
+		return err
 	}
 
 	if !sessionExists {
 		err := errors.NewValidationError("A sessão não existe!")
 		a.logger.Log(err)
-		return nil, err
+		return err
 	}
 
 	authorization, err := a.authRepository.Callback(code)
 	if err != nil {
 		a.logger.Log(err)
-		return nil, err
+		return err
 	}
 
 	err = a.sessionRepository.StoreAuth(state, authorization)
 	if err != nil {
 		a.logger.Log(err)
-		return nil, err
+		return err
 	}
 
-	return authorization, err
+	return nil
 }
 
 func NewAuthServices(authRepository repository.AuthLoader, sessionRepository repository.SessionLoader, logger logger.Logger) *AuthServices {
