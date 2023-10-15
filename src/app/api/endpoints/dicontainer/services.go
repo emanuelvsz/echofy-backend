@@ -7,7 +7,7 @@ import (
 )
 
 func GetAuthServices() primary.AuthManager {
-	return services.NewAuthServices(GetAuthRepository(), GetLogger())
+	return services.NewAuthServices(GetAuthRepository(), GetSessionRepository(), GetLogger())
 }
 
 func GetUserServices() primary.UserManager {

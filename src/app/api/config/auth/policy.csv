@@ -1,2 +1,2 @@
-p, anonymous, \/api\/auth\/login, *
+p, anonymous, \/api\/anonymous\/[^\r\n]*, *
 p, anonymous, \/api\/docs\/[^\r\n]*, *

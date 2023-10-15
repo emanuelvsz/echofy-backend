@@ -11,4 +11,5 @@ func LoadAnonymousRoute(group *echo.Group) {
 	authHandlers := dicontainer.GetAuthHandlers()
 
 	anonyousGroup.GET("/authenticate", authHandlers.Login)
+	anonyousGroup.GET("/callback", authHandlers.Callback)
 }
