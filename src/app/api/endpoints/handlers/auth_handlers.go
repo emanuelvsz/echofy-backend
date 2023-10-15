@@ -60,6 +60,7 @@ func (instance AuthHandlers) Callback(context echo.Context) error {
 	code := context.QueryParam("code")
 	state := context.QueryParam("state")
 
+	// TODO: Create invalidFields error messages in the messages file
 	stateID, err := uuid.Parse(state)
 	if err != nil {
 		invalidField := errors.InvalidField{
