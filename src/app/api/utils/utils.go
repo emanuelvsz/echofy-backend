@@ -1,11 +1,11 @@
 package utils
 
 import (
+	"echofy_backend/src/core"
+	"echofy_backend/src/core/domain/user"
 	"encoding/json"
 	"errors"
 	"fmt"
-	"echofy_backend/src/core"
-	"echofy_backend/src/core/domain/user"
 	"os"
 	"strings"
 

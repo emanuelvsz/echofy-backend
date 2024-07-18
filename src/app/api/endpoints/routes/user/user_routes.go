@@ -16,4 +16,5 @@ func LoadUserRoutes(group *echo.Group) {
 	userGroup.GET("/playlist/:playlistID", userHandlers.GetPlaylistByID)
 	userGroup.GET("/playlist/:playlistID/songs", userHandlers.GetSongsByPlaylistID)
 	userGroup.GET("/album/:albumID/songs", userHandlers.GetAlbumTracks)
+	userGroup.GET("/album/:artistID/albums", userHandlers.GetAlbumsArtist)
 }
