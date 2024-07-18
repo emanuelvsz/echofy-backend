@@ -4,7 +4,6 @@ import (
 	"echofy_backend/src/app/api/endpoints/handlers/dtos/response"
 	"echofy_backend/src/core/interfaces/primary"
 	"net/http"
-	"time"
 
 	"github.com/labstack/echo/v4"
 )
@@ -171,7 +170,7 @@ func (h UserHandlers) GetAlbumsArtist(context echo.Context) error {
 			each.ID(),
 			each.Name(),
 			each.ArtistID(),
-			time.Time{},
+			each.ReleaseDate(),
 			each.Description(),
 			nil,
 		)

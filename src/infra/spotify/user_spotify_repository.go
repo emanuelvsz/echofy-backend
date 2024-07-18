@@ -10,6 +10,7 @@ import (
 	"echofy_backend/src/core/errors"
 	"echofy_backend/src/core/interfaces/repository"
 	"echofy_backend/src/core/messages"
+	"time"
 
 	"github.com/zmb3/spotify/v2"
 	spotifyauth "github.com/zmb3/spotify/v2/auth"
@@ -189,17 +190,24 @@ func (u UserSpotifyRepository) FindArtistAlbumsByID(artistID string) ([]album.Al
 		albumID := single_album.ID
 		albumName := single_album.Name
 
+		albumRealeaseDate, err := time.Parse("2006-01-02", single_album.ReleaseDate)
+		if err != nil {
+			return nil, errors.NewUnexpectedError(messages.UnexpectedErrorMessage, err)
+		}
+
 		albumBuilder := album.NewBuilder()
-		albumBuilder.WithArtistID(artistID).WithID(albumID.String()).WithName(albumName)
+		albumBuilder.WithArtistID(artistID).WithID(albumID.String()).WithName(albumName).WithReleaseDate(albumRealeaseDate)
 		albumBuilded, createdError := albumBuilder.Build()
 		if createdError != nil {
 			return nil, errors.NewUnexpectedError(messages.UnexpectedErrorMessage, createdError)
 		}
 
 		albums = append(albums, *albumBuilded)
+
 	}
 
 	return albums, nil
+
 }
 
 func NewUserSpotifyRepository() *UserSpotifyRepository {
