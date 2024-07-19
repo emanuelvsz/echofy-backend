@@ -33,6 +33,6 @@ func (a Album) Description() *string {
 	return a.description
 }
 
-func (a Album) ImageURL() string {
-	return a.imageURL
+func (a Album) ImageURL() *string {
+	return &a.imageURL
 }

@@ -172,7 +172,7 @@ func (h UserHandlers) GetAlbumsArtist(context echo.Context) error {
 			each.ArtistID(),
 			each.ReleaseDate(),
 			each.Description(),
-			nil,
+			each.ImageURL(),
 		)
 		albums = append(albums, *albumBuilder)
 
