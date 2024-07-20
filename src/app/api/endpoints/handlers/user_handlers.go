@@ -155,8 +155,8 @@ func (h UserHandlers) GetAlbumTracks(context echo.Context) error {
 // @Failure 422 {object} response.ErrorMessage "Algum dado informado não pôde ser processado."
 // @Failure 500 {object} response.ErrorMessage "Ocorreu um erro inesperado."
 // @Failure 503 {object} response.ErrorMessage "A base de dados não está disponível."
-// @Router /user/album/{artistID}/albums [get]
-func (h UserHandlers) GetAlbumsArtist(context echo.Context) error {
+// @Router /user/artist/{artistID}/albums [get]
+func (h UserHandlers) GetArtistAlbums(context echo.Context) error {
 	artistID := context.Param(artistID)
 
 	albumsRows, fetchErr := h.service.FetchArtistAlbumsByID(artistID)

@@ -186,18 +186,16 @@ func (u UserSpotifyRepository) FindArtistAlbumsByID(artistID string) ([]album.Al
 	}
 
 	albums := make([]album.Album, 0)
-	for _, single_album := range artist.Albums {
-		albumID := single_album.ID
-		albumName := single_album.Name
+	for _, singleAlbum := range artist.Albums {
+		albumID := singleAlbum.ID
+		albumName := singleAlbum.Name
 
-		albumRealeaseDate, err := time.Parse("2006-01-02", single_album.ReleaseDate)
+		albumRealeaseDate, err := time.Parse("2006-01-02", singleAlbum.ReleaseDate)
 		if err != nil {
 			return nil, errors.NewUnexpectedError(messages.UnexpectedErrorMessage, err)
 		}
 
-		var albumImage *string
-
-		albumImage = &single_album.Images[0].URL
+		albumImage := &singleAlbum.Images[0].URL
 
 		albumBuilder := album.NewBuilder()
 		albumBuilder.WithArtistID(artistID).WithID(albumID.String()).WithName(albumName).WithReleaseDate(albumRealeaseDate).WithImageURL(*albumImage)
