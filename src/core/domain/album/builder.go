@@ -5,8 +5,6 @@ import (
 	"echofy_backend/src/core/errors"
 	"echofy_backend/src/core/messages"
 	"time"
-
-	"github.com/google/uuid"
 )
 
 type Builder struct {
@@ -14,8 +12,8 @@ type Builder struct {
 	invalidFields []errors.InvalidField
 }
 
-func (b *Builder) WithID(id uuid.UUID) *Builder {
-	if id == uuid.Nil {
+func (b *Builder) WithID(id string) *Builder {
+	if id == "" {
 		b.invalidFields = append(b.invalidFields, errors.InvalidField{
 			Name:        messages.AlbumID,
 			Description: messages.AlbumIDInvalidErrMsg,
@@ -36,8 +34,8 @@ func (b *Builder) WithName(name string) *Builder {
 	return b
 }
 
-func (b *Builder) WithArtistID(artistID uuid.UUID) *Builder {
-	if artistID == uuid.Nil {
+func (b *Builder) WithArtistID(artistID string) *Builder {
+	if artistID == "" {
 		b.invalidFields = append(b.invalidFields, errors.InvalidField{
 			Name:        messages.AlbumArtistID,
 			Description: messages.AlbumArtistIDInvalidErrMsg,

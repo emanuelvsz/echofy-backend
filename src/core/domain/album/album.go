@@ -2,20 +2,18 @@ package album
 
 import (
 	"time"
-
-	"github.com/google/uuid"
 )
 
 type Album struct {
-	id          uuid.UUID
+	id          string
 	name        string
-	artistID    uuid.UUID
+	artistID    string
 	releaseDate time.Time
 	description *string
 	imageURL    string
 }
 
-func (a Album) ID() uuid.UUID {
+func (a Album) ID() string {
 	return a.id
 }
 
@@ -23,7 +21,7 @@ func (a Album) Name() string {
 	return a.name
 }
 
-func (a Album) ArtistID() uuid.UUID {
+func (a Album) ArtistID() string {
 	return a.artistID
 }
 
@@ -35,6 +33,6 @@ func (a Album) Description() *string {
 	return a.description
 }
 
-func (a Album) ImageURL() string {
-	return a.imageURL
+func (a Album) ImageURL() *string {
+	return &a.imageURL
 }

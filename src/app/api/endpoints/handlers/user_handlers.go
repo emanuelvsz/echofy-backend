@@ -142,6 +142,46 @@ func (h UserHandlers) GetAlbumTracks(context echo.Context) error {
 	return context.JSON(http.StatusOK, songs)
 }
 
+// GetAlbumByArtistID
+// @ID GetAlbumByArtistID
+// @Summary Buscar todas os álbuns de um artista pelo seu ID
+// @Tags Rotas do usuário
+// @Description Rota que permite que se busque todos os álbuns de um determinado artista
+// @Param artistID path string true "ID do Artista." default(5K4W6rqBFWDnAN6FQUkS6x)
+// @Produce json
+// @Success 200 {array} response.AlbumDTO "Requisição realizada com sucesso."
+// @Failure 401 {object} response.ErrorMessage "Usuário não autorizado."
+// @Failure 403 {object} response.ErrorMessage "Acesso negado."
+// @Failure 422 {object} response.ErrorMessage "Algum dado informado não pôde ser processado."
+// @Failure 500 {object} response.ErrorMessage "Ocorreu um erro inesperado."
+// @Failure 503 {object} response.ErrorMessage "A base de dados não está disponível."
+// @Router /user/artist/{artistID}/albums [get]
+func (h UserHandlers) GetArtistAlbums(context echo.Context) error {
+	artistID := context.Param(artistID)
+
+	albumsRows, fetchErr := h.service.FetchArtistAlbumsByID(artistID)
+	if fetchErr != nil {
+		return getHttpHandledErrorResponse(context, fetchErr)
+	}
+
+	albums := make([]response.AlbumDTO, 0)
+	for _, each := range albumsRows {
+		albumBuilder := response.NewAlbumDTO(
+			each.ID(),
+			each.Name(),
+			each.ArtistID(),
+			each.ReleaseDate(),
+			each.Description(),
+			each.ImageURL(),
+		)
+		albums = append(albums, *albumBuilder)
+
+	}
+
+	return context.JSON(http.StatusOK, albums)
+
+}
+
 // GetUserBasicInfo
 // @ID GetUserBasicInfo
 // @Summary Buscar alguns dados pessoais do usuario
