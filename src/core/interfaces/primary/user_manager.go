@@ -14,4 +14,5 @@ type UserManager interface {
 	FetchSongsByAlbumID(albumID string) ([]song.Song, errors.Error)
 	FetchUserBasicInfo() (*user.User, errors.Error)
 	FetchArtistAlbumsByID(artistID string) ([]album.Album, errors.Error)
+	FetchSongDetailsByID(songID string) (*song.Song, errors.Error)
 }

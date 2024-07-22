@@ -212,6 +212,53 @@ func (u UserSpotifyRepository) FindArtistAlbumsByID(artistID string) ([]album.Al
 
 }
 
+func (u UserSpotifyRepository) FindSongDetailsByID(songID string) (*song.Song, errors.Error) {
+	ctx := context.Background()
+	token := getConnection(ctx)
+
+	httpClient := spotifyauth.New().Client(ctx, token)
+	client := spotify.New(httpClient)
+
+	tracks, err := client.GetTrack(ctx, spotify.ID(songID))
+	if err != nil {
+		return nil, errors.NewUnexpectedError("failed to create Spotify HTTP client", err)
+	}
+
+	var artists []artist.Artist
+
+	for _, artistSingle := range tracks.Artists {
+		artistInstance, err := artist.NewBuilder().
+			WithName(artistSingle.Name).
+			WithID(string(artistSingle.ID)).
+			WithSpotifyURL((*string)(&artistSingle.URI)).
+			Build()
+
+		if err != nil {
+			return nil, errors.NewUnexpectedError(messages.ArtistBuildErr, err)
+		}
+
+		artists = append(artists, *artistInstance)
+
+	}
+
+	trackIntance, err := song.NewBuilder().
+		WithAlbumID(string(tracks.Album.ID)).
+		WithArtists(artists).
+		WithDuration(tracks.Duration).
+		WithID(string(tracks.ID)).
+		WithName(tracks.Name).
+		WithReleaseDate(tracks.Album.ReleaseDateTime()).
+		WithSpotifyURL(string(tracks.SimpleTrack.URI)).
+		WithTrackNumber(tracks.TrackNumber).
+		Build()
+
+	if err != nil {
+		return nil, errors.NewUnexpectedError(messages.SongBuildErr, err)
+	}
+
+	return trackIntance, nil
+}
+
 func NewUserSpotifyRepository() *UserSpotifyRepository {
 	return &UserSpotifyRepository{}
 }
