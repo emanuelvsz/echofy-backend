@@ -14,4 +14,5 @@ type UserLoader interface {
 	FindSongsByAlbumID(albumID string) ([]song.Song, errors.Error)
 	FindUserBasicInfo() (*user.User, errors.Error)
 	FindArtistAlbumsByID(artistID string) ([]album.Album, errors.Error)
+	FindSongDetailsByID(songID string) (*song.Song, errors.Error)
 }

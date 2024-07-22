@@ -4,6 +4,7 @@ import (
 	"echofy_backend/src/app/api/endpoints/handlers/dtos/response"
 	"echofy_backend/src/core/interfaces/primary"
 	"net/http"
+	"time"
 
 	"github.com/labstack/echo/v4"
 )
@@ -179,6 +180,55 @@ func (h UserHandlers) GetArtistAlbums(context echo.Context) error {
 	}
 
 	return context.JSON(http.StatusOK, albums)
+
+}
+
+// GetSongDetails
+// @ID GetSongDetails
+// @Summary Buscar dados de uma música especifíca
+// @Tags Rotas do usuário
+// @Description Rota que permite que se busque os dados de uma música
+// @Param songID path string true "ID da música." default(1SKPmfSYaPsETbRHaiA18G)
+// @Produce json
+// @Success 200 {array} response.SongDTO "Requisição realizada com sucesso."
+// @Failure 401 {object} response.ErrorMessage "Usuário não autorizado."
+// @Failure 403 {object} response.ErrorMessage "Acesso negado."
+// @Failure 422 {object} response.ErrorMessage "Algum dado informado não pôde ser processado."
+// @Failure 500 {object} response.ErrorMessage "Ocorreu um erro inesperado."
+// @Failure 503 {object} response.ErrorMessage "A base de dados não está disponível."
+// @Router /user/song/{songID}/details [get]
+func (h UserHandlers) FetchSongDetailsByID(context echo.Context) error {
+	songID := context.Param("songID")
+
+	songRows, fetchErr := h.service.FetchSongDetailsByID(songID)
+	if fetchErr != nil {
+		return getHttpHandledErrorResponse(context, fetchErr)
+	}
+
+	artists := make([]response.ArtistDTO, 0)
+	for _, each := range songRows.Artists() {
+		artistBuilder := response.NewArtistDTO(
+			each.ID(),
+			each.Name(),
+			nil,
+			nil,
+			time.Time{},
+			nil,
+			nil,
+		)
+		artists = append(artists, *artistBuilder)
+	}
+
+	track := response.NewSongDTO(
+		songRows.ID(),
+		songRows.Name(),
+		artists,
+		songRows.AlbumID(),
+		songRows.ReleaseDate(),
+		songRows.Duration(),
+	)
+
+	return context.JSON(http.StatusOK, track)
 
 }
 

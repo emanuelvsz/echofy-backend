@@ -10,12 +10,12 @@ type SongDTO struct {
 	ID          string      `json:"id"`
 	Name        string      `json:"name"`
 	Artists     []ArtistDTO `json:"artists"`
-	AlbumID     *uuid.UUID  `json:"album_id,omitempty"`
+	AlbumID     string      `json:"album_id,omitempty"`
 	ReleaseDate time.Time   `json:"release_date,omitempty"`
 	Duration    int         `json:"duration"`
 }
 
-func NewSongDTO(ID, Name string, Artists []ArtistDTO, AlbumID *uuid.UUID, ReleaseDate time.Time, Duration int) *SongDTO {
+func NewSongDTO(ID, Name string, Artists []ArtistDTO, AlbumID string, ReleaseDate time.Time, Duration int) *SongDTO {
 	return &SongDTO{
 		ID:          ID,
 		Name:        Name,

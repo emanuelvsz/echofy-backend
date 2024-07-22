@@ -7,8 +7,6 @@ import (
 	"echofy_backend/src/core/messages"
 	"net/url"
 	"time"
-
-	"github.com/google/uuid"
 )
 
 type Builder struct {
@@ -52,7 +50,7 @@ func (b *Builder) WithArtists(artists []artist.Artist) *Builder {
 	return b
 }
 
-func (b *Builder) WithAlbumID(albumID *uuid.UUID) *Builder {
+func (b *Builder) WithAlbumID(albumID string) *Builder {
 	b.albumID = albumID
 	return b
 }
