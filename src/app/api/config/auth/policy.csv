@@ -1,2 +1,0 @@
-p, anonymous, \/api\/anonymous\/[^\r\n]*, *
-p, anonymous, \/api\/docs\/[^\r\n]*, *
