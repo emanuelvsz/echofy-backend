@@ -28,8 +28,10 @@ export class AuthController {
     @Query('error') error: string,
     @Res() res: Response,
   ) {
-    if (error)
-      return res.redirect('http://localhost:3000/?error=access_denied');
+    const FRONTEND_URL = 'http://localhost:3000';
+
+    if (error) return res.redirect(`${FRONTEND_URL}/?error=access_denied`);
+
     if (!code)
       return res
         .status(HttpStatus.BAD_REQUEST)
@@ -41,14 +43,15 @@ export class AuthController {
       res.cookie('spotify_access_token', tokenData.access_token, {
         httpOnly: true,
         secure: true,
+        sameSite: 'none',
         maxAge: tokenData.expires_in * 1000,
         path: '/',
       });
 
-      return res.redirect('http://localhost:3000');
+      return res.redirect(FRONTEND_URL);
     } catch (err) {
       console.error('Erro no callback do Spotify:', err);
-      return res.redirect('http://localhost:3000/?error=auth_failed');
+      return res.redirect(`${FRONTEND_URL}/?error=auth_failed`);
     }
   }
 

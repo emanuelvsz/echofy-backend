@@ -23,7 +23,9 @@ export class ArtistController {
     const token = cookies['spotify_access_token'];
 
     if (!token) {
-      throw new UnauthorizedException('Sessão expirada. Faça login novamente.');
+      throw new UnauthorizedException(
+        'Expired Session. Authenticate it again.',
+      );
     }
 
     return this.artistService.getTopArtists(token, limit);

@@ -23,9 +23,37 @@ export class TrackController {
     const token = cookies['spotify_access_token'];
 
     if (!token) {
-      throw new UnauthorizedException('Sessão expirada. Faça login novamente.');
+      throw new UnauthorizedException(
+        'Expired Session. Authenticate it again.',
+      );
     }
 
     return this.trackService.getTopTracks(token, limit);
+  }
+
+  @Get('on-loop')
+  async getOnLoop(@Req() req: Request) {
+    const cookies = req.cookies as Record<string, string | undefined>;
+    const token = cookies['spotify_access_token'];
+
+    if (!token) {
+      throw new UnauthorizedException(
+        'Expired Session. Authenticate it again.',
+      );
+    }
+
+    return this.trackService.getOnLoopTrack(token);
+  }
+
+  @Get('history')
+  async getHistory(@Req() req: Request) {
+    const cookies = req.cookies as Record<string, string | undefined>;
+    const token = cookies['spotify_access_token'];
+    if (!token) {
+      throw new UnauthorizedException(
+        'Expired Session. Authenticate it again.',
+      );
+    }
+    return this.trackService.getHistory(token);
   }
 }
