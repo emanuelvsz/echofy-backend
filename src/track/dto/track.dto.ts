@@ -1,5 +1,5 @@
 export class TrackDto {
-  id: number;
+  id: string;
   title: string;
   artist: string;
   plays: string;
