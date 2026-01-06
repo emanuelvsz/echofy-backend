@@ -4,11 +4,11 @@ import cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+
   app.use(cookieParser());
 
   app.enableCors({
-    origin: 'http://localhost:3000',
+    origin: process.env.CORS_ORIGIN?.split(','),
     credentials: true,
     allowedHeaders: [
       'Content-Type',
@@ -18,7 +18,11 @@ async function bootstrap() {
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   });
 
-  await app.listen(3001);
-  console.log('🚀 Backend rodando em http://localhost:3001');
+  const port = process.env.PORT || 3001;
+  await app.listen(port);
+
+  console.log(`🚀 Backend rodando na porta ${port}`);
 }
+void bootstrap();
+
 void bootstrap();
